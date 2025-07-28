@@ -1,10 +1,9 @@
 class TweetsController < ApplicationController
-  before_action :set_tweet, only: [:edit, :show]
+  before_action :set_tweet, only: [:edit, :show, :update, :destroy]
 
   def index
     @tweets = Tweet.all
   end
-
   def new
     @tweet = Tweet.new
   end
@@ -13,16 +12,15 @@ class TweetsController < ApplicationController
     @tweet = Tweet.new(tweet_params)
     if @tweet.save
       redirect_to root_path
-    else 
+    else
       render :new, status: :unprocessable_entity
     end
   end
 
   def destroy
-    tweet = Tweet.find(params[:id]) 
-    if tweet.destroy
+    if @tweet.destroy
       redirect_to root_path
-    else 
+    else
       render :show, status: :unprocessable_entity
     end
   end
@@ -31,21 +29,22 @@ class TweetsController < ApplicationController
   end
 
   def update
-    tweet = Tweet.find(params[:id])
-    if tweet.destroy
+    if @tweet.update(tweet_params)
       redirect_to root_path
-    else 
+    else
       render :edit, status: :unprocessable_entity
     end
   end
-  
+
   def show
   end
 
   private
+
   def tweet_params
     params.require(:tweet).permit(:name, :image, :text)
   end
+
   def set_tweet
     @tweet = Tweet.find(params[:id])
   end
