@@ -3,6 +3,10 @@ class Tweet < ApplicationRecord
   belongs_to :user
 
   has_one_attached :image
+  # ファイル形式とサイズのバリデーション
+    validates :image,
+    content_type: ['image/png', 'image/jpg', 'image/jpeg'],
+    size: { less_than: 5.megabytes, message: 'は5MB以下にしてください' }
 
   has_many :comments  # commentsテーブルとのアソシエーション　追記
 

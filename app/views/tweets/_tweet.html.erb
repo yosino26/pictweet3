@@ -1,4 +1,4 @@
-<div class="content_post" style="<% if tweet.image.attached? %>background-image: url(<%= url_for(tweet.image) %>);<% end %>">
+<div class="content_post" style="<% if tweet.image.attached? %>background-image: url(<%= url_for(tweet.image.variant(resize_to_limit: [600, 600])) %>);<% end %>">
 
   <div class="more">
     <span><%= image_tag 'arrow_top.png' %></span>
