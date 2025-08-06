@@ -23,4 +23,14 @@
       <span>投稿者</span><%= tweet.user.nickname %>               
     </a >
   </span>
+
+  <% if user_signed_in? %>
+  <% if tweet.likes.exists?(user: current_user) %>
+    <%= button_to '💔 いいね解除', tweet_likes_path(tweet), method: :delete %>
+  <% else %>
+    <%= button_to '❤️ いいね', tweet_likes_path(tweet), method: :post %>
+  <% end %>
+  <span><%= tweet.likes.count %>件のいいね</span>
+<% end %>
+
 </div>
