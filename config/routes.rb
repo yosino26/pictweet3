@@ -5,6 +5,10 @@ Rails.application.routes.draw do
    
   resources :tweets do
     resources :comments, only: :create
+
+    # ★ここを追加（いいね機能）
+    resource :likes, only: [:create, :destroy]
+    
     collection do
       get 'search'
     end
