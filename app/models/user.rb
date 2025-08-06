@@ -6,4 +6,7 @@ class User < ApplicationRecord
 
          has_many :tweets
          has_many :comments  # commentsテーブルとのアソシエーション　　　追記
+
+         has_many :likes, dependent: :destroy
+         has_many :liked_tweets, through: :likes, source: :tweet
 end

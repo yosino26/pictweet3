@@ -5,6 +5,9 @@ class Tweet < ApplicationRecord
   has_one_attached :image
   has_many :comments
 
+  has_many :likes, dependent: :destroy
+  has_many :liked_users, through: :likes, source: :user
+
   # ファイル形式とサイズのバリデーション（画像があるときだけチェック）
   validates :image,
     content_type: ['image/png', 'image/jpeg'],
@@ -23,7 +26,6 @@ class Tweet < ApplicationRecord
   end
 
   private
-
   def resize_image
     # 元画像をMiniMagickで加工してTempfileを作成
     resized = ImageProcessing::MiniMagick
