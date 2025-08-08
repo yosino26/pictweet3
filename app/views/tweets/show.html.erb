@@ -1,22 +1,24 @@
 <div class="contents row">
-  <div class="content_post" style="background-image: url(<%= @tweet.image %>);">
-  <% if user_signed_in? && current_user.id == @tweet.user_id %>
-    <div class="more">
-      <span><%= image_tag 'arrow_top.png' %></span>
-      <ul class="more_list">
-        <li>
-          <%= link_to '編集', edit_tweet_path(@tweet.id) %>
-        </li>
-        <li>
-          <%= link_to '削除', tweet_path(@tweet.id), data: { turbo_method: :delete } %>
-        </li>
-      </ul>
-    </div>
-  <% end %>
+  <div class="content_post" style="<% if @tweet.image.attached? %>background-image: url(<%= url_for(@tweet.image.variant(resize_to_limit: [600, 600])) %>);<% end %>">
+    <% if user_signed_in? && current_user.id == @tweet.user_id %>
+      <div class="more">
+        <span><%= image_tag 'arrow_top.png' %></span>
+        <ul class="more_list">
+          <li>
+            <%= link_to '編集', edit_tweet_path(@tweet.id) %>
+          </li>
+          <li>
+            <%= link_to '削除', tweet_path(@tweet.id), data: { turbo_method: :delete } %>
+          </li>
+        </ul>
+      </div>
+    <% end %>
 
     <p><%= @tweet.text %></p>
-    <span class="name"><%= @tweet.user.nickname %>
-    </span>
+    <span class="name"><%= @tweet.user.nickname %></span>
+
+    <!-- いいねは件数だけ表示 -->
+    <span class="like-count"><%= @tweet.likes.count %>件のいいね</span>
   </div>
 
   <div class="container">
@@ -33,7 +35,7 @@
       <h4>＜コメント一覧＞</h4>
       <% @comments.each do |comment| %>
         <p>
-       <strong><%= link_to comment.user.nickname, "/users/#{comment.user_id}" %>：</strong>
+          <strong><%= link_to comment.user.nickname, "/users/#{comment.user_id}" %>：</strong>
           <%= comment.text %>
         </p>
       <% end %>
