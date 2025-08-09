@@ -4,13 +4,21 @@ class LikesController < ApplicationController
 
   def create
     @tweet.likes.create(user: current_user)
-    redirect_to tweets_path
+
+    respond_to do |format|
+      format.turbo_stream # Turbo Streams
+      format.html { redirect_to tweets_path }
+    end
   end
 
   def destroy
     like = @tweet.likes.find_by(user: current_user)
     like.destroy if like
-    redirect_to tweets_path
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to tweets_path }
+    end
   end
 
   private

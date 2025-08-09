@@ -25,13 +25,8 @@
   </span>
 
 
-<% if user_signed_in? %>
-<% if tweet.likes.exists?(user: current_user) %>
-  <%= button_to '💔 いいね解除', tweet_likes_path(tweet.id), method: :delete, class: "like-button" %>
-<% else %>
-  <%= button_to '❤️ いいね', tweet_likes_path(tweet.id), method: :post, class: "like-button" %>
-<% end %>
-<span class="like-count"><%= tweet.likes.count %>件のいいね</span>
-<% end %>
+  <div id="like_button_<%= tweet.id %>">
+    <%= render 'tweets/like_button', tweet: tweet %>
+  </div>
 
 </div>
