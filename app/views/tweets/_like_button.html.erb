@@ -1,9 +1,15 @@
-<% if user_signed_in? %>
+<div id="like_button_<%= tweet.id %>">
   <% if tweet.likes.exists?(user: current_user) %>
-    <%= button_to '💔 いいね解除', tweet_likes_path(tweet.id), method: :delete, class: "like-button" %>
+    <%= button_to '💔 いいね解除', tweet_likes_path(tweet.id),
+                  method: :delete,
+                  form: { data: { turbo_stream: true } },
+                  class: "like-button" %>
   <% else %>
-    <%= button_to '❤️ いいね', tweet_likes_path(tweet.id), method: :post, class: "like-button" %>
+    <%= button_to '❤️ いいね', tweet_likes_path(tweet.id),
+                  method: :post,
+                  form: { data: { turbo_stream: true } },
+                  class: "like-button" %>
   <% end %>
   <span class="like-count"><%= tweet.likes.count %>件のいいね</span>
-<% end %>
+</div>
 
